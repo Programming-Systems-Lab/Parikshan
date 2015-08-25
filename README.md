@@ -8,18 +8,7 @@ SANDBOX TESTING
 
 Decription
 --------
-
-One of the biggest problems faced by developers testing large scale systems is replicating the deployed environment to figure out errors.
-In recent years there has been a lot of work in record-and-replay systems which captures traces from live production systems, and replays them.
-However, most such record-replay systems have a high recording overhead and are still not practical to be used in production environments without paying a penalty in terms of overhead.
-
-In this work we present a testing harness for production systems which allows the capabilities of running test-cases in a sandbox environment in the wild at any point in the execution of an integrated application. 
-The paper levarages, User-Space Containers(OpenVZ/LXCs) to launch test instances in a container cloned and migrated from a running instances of an application. 
-The test-container provides a sandbox environment, for safe execution of test-cases provided by the users without disturbing the execution environment. 
-Test cases are initiated using user-defined probe points which launch test-cases using the execution context of the probe point. 
-Our sandboxes provide a seperate namespace for the processes executing the test cases, replicate and copy inputs to the parent application, safetly discard all outputs, and manage the file system such that existing and newly created file descriptors are safetly managed.
-
-We believe our tool provides a mechanism for practical testing of large scale multi-tier and cloud applications. 
+The following README shows how-to instructions for setup and network proxy/forwarding directions.
 
 1. Installing OpenVZ
 ---------------
@@ -36,9 +25,9 @@ Install vzdump http://chrisschuld.com/2009/11/installing-vzdump-for-openvz-on-ce
 
 Installing OpenVZPanel http://owp.softunity.com.ru
 
-1. Using vzmigrate
+1. Using vzclone
 ---------------
- vzmigrate --online <host> VEID
+ vzclone --online <host> VEID
 
 2. Using vzdump
 --------------
@@ -50,23 +39,20 @@ http://xmodulo.com/2013/05/how-to-checkpoint-and-restore-linux-process.html
 
 4. Everything about vzctl
 -----------------
-http://openvz.org/Man/vzctl.8
+http://openvz.org/Man/vzctl
 
 5. Ploop Articles
 -----------
 http://openvz.livejournal.com/40830.html http://openvz.org/Ploop/Backup
 
-6. Proxmox
------------
-http://www.proxmox.com/downloads http://pve.proxmox.com/wiki/Installation#Proxmox_VE_web_interface
 
-7. Backup and Restore
+6. Backup and Restore
 ------------
 https://github.com/andreasfaerber/vzpbackup Blog Example: http://blog.maeh.org/blog/2013/09/03/openvz-ploop-backup-and-restore-scripts/
 
-8. To fix any networking issue
+7. To fix any networking issue
 --------------
-Venet Venet routed networking is probably the simplest to set up, simply add the IP address to the VE:
+ VENET routed networking is probably the simplest to set up, simply add the IP address to the VE:
 
 [host-node]# vzctl set 101 --ipadd 192.168.2.1 --save
 
@@ -172,7 +158,7 @@ Httperf - https://cs.uwaterloo.ca/~brecht/servers/openfiles.html - fixing file d
 15. Todo
 ------------
 
- vzmigrate --times --online <host> VEID 
+ vzclone --times --online <host> VEID 
 
 
 16. Small Networking Issues
