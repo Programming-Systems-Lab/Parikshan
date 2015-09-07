@@ -1,16 +1,14 @@
 ==================
-SANDBOX TESTING
+PARIKSHAN - LIVE DEBUGGING
 =================
-
-:version: 1.1
-:source: https://github.com/nipunarora/sandbox-testing/wiki/Parikshan:-A-Testing-Harness-for-In-Vivo-Sandbox-Testing
-:keywords: how-to, sandbox testing
 
 Decription
 --------
+
+This is a description of our early prototype of Parikshan a live debugging framework. 
 The following README shows how-to instructions for setup and network proxy/forwarding directions.
 
-1. Installing OpenVZ
+1. Instructions for setting up the container
 ---------------
 
 Install OpenVZ via the following script: https://github.com/nipunarora/sandbox-testing/blob/master/openvz-boot.sh
@@ -25,143 +23,76 @@ Install vzdump http://chrisschuld.com/2009/11/installing-vzdump-for-openvz-on-ce
 
 Installing OpenVZPanel http://owp.softunity.com.ru
 
-1. Using vzclone
----------------
- vzclone --online <host> VEID
+Everything about vzctl: http://openvz.org/Man/vzctl
 
-2. Using vzdump
---------------
-http://www.howtoforge.com/clone-back-up-restore-openvz-vms-with-vzdump
+Ploop Articles: http://openvz.livejournal.com/40830.html http://openvz.org/Ploop/Backup
 
-3. CRIU install
---------------
-http://xmodulo.com/2013/05/how-to-checkpoint-and-restore-linux-process.html
+Setting up and fixing networking issue: VENET routed networking is probably the simplest to set up, simply add the IP address to the VE:
 
-4. Everything about vzctl
------------------
-http://openvz.org/Man/vzctl
+	[host-node]# vzctl set 101 --ipadd 192.168.2.1 --save
 
-5. Ploop Articles
------------
-http://openvz.livejournal.com/40830.html http://openvz.org/Ploop/Backup
+	After this the host should be able to ping the VE. To allow the VE to access the rest of the LAN we must enable forwarding and masquerading, as all activity on the LAN must look like it is coming directly from host (with its IP address).
 
+	First stop and flush default iptables
 
-6. Backup and Restore
-------------
-https://github.com/andreasfaerber/vzpbackup Blog Example: http://blog.maeh.org/blog/2013/09/03/openvz-ploop-backup-and-restore-scripts/
+	service iptables stop
 
-7. To fix any networking issue
---------------
- VENET routed networking is probably the simplest to set up, simply add the IP address to the VE:
+	Set ip_forwarding for ipv4
 
-[host-node]# vzctl set 101 --ipadd 192.168.2.1 --save
+	[host-node]# echo 1 > /proc/sys/net/ipv4/ip_forward
 
-After this the host should be able to ping the VE. To allow the VE to access the rest of the LAN we must enable forwarding and masquerading, as all activity on the LAN must look like it is coming directly from host (with its IP address).
+	Set iptables to MASQUERADE on eth0
+	[host-node]# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-First stop and flush default iptables
+	replace /etc/modprobe.d/openvz.conf from 1 to 0
 
-service iptables stop
+	To allow for cloning to work - 
+	http://wiki.hillockhosting.com/openvz/vzrst-module-is-not-loaded-on-the-destination-node/
 
-Set ip_forwarding for ipv4
-
-[host-node]# echo 1 > /proc/sys/net/ipv4/ip_forward
-
-Set iptables to MASQUERADE on eth0
-[host-node]# iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-
-replace /etc/modprobe.d/openvz.conf from 1 to 0
-
-To allow for cloning to work - 
-http://wiki.hillockhosting.com/openvz/vzrst-module-is-not-loaded-on-the-destination-node/
-
-modprobe vzrst
-
-modprobe vzcpt
-
-9. Splitting Network Traffic
-----------------
-Need to split traffic at Layer 7 level
-
-IPTables V Tunnel: http://serverfault.com/questions/570761/how-to-duplicate-tcp-traffic-to-one-or-multiple-remote-servers-for-benchmarking
-
-Agnoster Duplicator: https://github.com/agnoster/duplicator
-
-10. Starting a ploop container
----------------
-
-I want to use CentOS 6 in my virtual machines, so I download a CentOS 6 template:
-
-cd /vz/template/cache
-
-wget http://download.openvz.org/template/precreated/centos-6-x86_64.tar.gz
-
-I will now show you the basic commands for using OpenVZ.
-
-To set up a VPS from the CentOS 6 template, run:
-
-vzctl create 101 --ostemplate centos-6-x86_64 --layout ploop --config basic
-
-The 101 must be a uniqe ID - each virtual machine must have its own unique ID. You can use the last part of the virtual machine's IP address for it. For example, if the virtual machine's IP address is 192.168.0.101, you use 101 as the ID.
-
-To set a hostname and IP address for the vm, run:
-
-vzctl set 101 --hostname test.example.com --save
-
-vzctl set 101 --ipadd 192.168.0.101 --save
-
-Next we set the number of sockets to 120 and assign a few nameservers to the vm:
-
-vzctl set 101 --numothersock 120 --save
-
-vzctl set 101 --nameserver 8.8.8.8 --nameserver 8.8.4.4 --nameserver 145.253.2.75 --save
+	modprobe vzrst
+	modprobe vzcpt
 
 
-11. Network Card Management in KVM
--------------
+Starting a ploop container
 
-The assignment of network cards to interfaces is done in /etc/udev/rules.d/70-persistent-net.rules you need to flush the lines, if you add a new NIC
+	Download a CentOS 6 template:
 
-12. Install Node JS & npm
--------------
+	cd /vz/template/cache
 
-Ref: https://github.com/joyent/node/wiki/backports.debian.org, https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager
+	wget http://download.openvz.org/template/precreated/centos-6-x86_64.tar.gz
 
-Run the following (as root):
+	Basic commands for using OpenVZ.
 
-echo "deb http://ftp.us.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list
-apt-get update
-apt-get install nodejs-legacy
-curl --insecure https://www.npmjs.org/install.sh | bash
+	To set up a VPS from the CentOS 6 template, run:
+
+	vzctl create 101 --ostemplate centos-6-x86_64 --layout ploop --config basic
+
+	The 101 must be a uniqe ID - each virtual machine must have its own unique ID. You can use the last part of the virtual machine's IP address for it. For example, if the virtual machine's IP address is 192.168.0.101, you use 101 as the ID.
+
+	To set a hostname and IP address for the vm, run:
+
+	vzctl set 101 --hostname test.example.com --save
+
+	vzctl set 101 --ipadd 192.168.0.101 --save
+
+	Next we set the number of sockets to 120 and assign a few nameservers to the vm:
+
+	vzctl set 101 --numothersock 120 --save
+
+	vzctl set 101 --nameserver 8.8.8.8 --nameserver 8.8.4.4 --nameserver 145.253.2.75 --save
 
 
-13. Proxy Servers
-----------
-http://voorloopnul.com/blog/a-python-proxy-in-less-than-100-lines-of-code/ - simple proxy 
-https://github.com/iSECPartners/tcpprox - well made proxy 
-https://gist.github.com/fiorix/1878983 - Twisted proxy
+Network Card Management in KVM
 
-Vaurien Install 
+ The assignment of network cards to interfaces is done in /etc/udev/rules.d/70-persistent-net.rules you need to flush the lines, if you add a new NIC
 
-- yum install python python-devel
-- yum install libevent-devel
-- pip install vaurien
-
- 
-
-14. Evaluation Install
+Evaluation Install
 ------------------
 
-LAMP Install - https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
-Httperf - https://cs.uwaterloo.ca/~brecht/servers/openfiles.html - fixing file descriptors
+	LAMP Install - https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04
+	Httperf - https://cs.uwaterloo.ca/~brecht/servers/openfiles.html - fixing file descriptors
 
-
-15. Todo
-------------
-
- vzclone --times --online <host> VEID 
-
-
-16. Small Networking Issues
+Small Networking Issues
 ------------
 
 Change ssh access to not use DNS and GGSAPI::
