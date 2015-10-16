@@ -111,7 +111,7 @@ Aggregator can be found in the proxyAgg folder. Execution instructions can be fo
 Execution instructions of both scripts are similar
 
 Example - 
-
+```
 ./proxy -l 9133 -h 127.0.0.1 -p 9132 -x 192.168.122.45 -d 9131 -m 127.0.0.1  -a
 
 -l = local port
@@ -123,7 +123,7 @@ Example -
 -a = asynchronous
 -s = synchronous
 -b <2048> = buffer size
-
+```
 Cloning Scripts
 -----------------
 
