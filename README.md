@@ -111,3 +111,7 @@ Aggregator can be found in the proxyAgg folder. Execution instructions can be fo
 
 Cloning Scripts
 -----------------
+
+vzclone_vz48 is the latest cloning script available.
+
+*** Current setup scripts and README is simply directions for executions. The system setup required by itself is quite complicated. Please submit an issue or contact nipun@cs.columbia.edu for further queries ***
