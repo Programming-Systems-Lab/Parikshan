@@ -101,3 +101,13 @@ Change ssh access to not use DNS and GGSAPI::
        GGSAPIAuthentication no
 
 Start mysqld server using ./bin/mysqld_safe --skip-name-resolve --user=mysql
+
+Aggregator and Duplicator
+------------
+
+Duplicator can be found in the proxyClone folder. Execution instructions can be found by doing a ./proxyClone
+
+Aggregator can be found in the proxyAgg folder. Execution instructions can be found by doing a ./proxyAgg
+
+Cloning Scripts
+-----------------
