@@ -106,12 +106,52 @@ Aggregator and Duplicator
 ------------
 
 Duplicator can be found in the proxyClone folder. Execution instructions can be found by doing a ./proxyClone
-
 Aggregator can be found in the proxyAgg folder. Execution instructions can be found by doing a ./proxyAgg
+
+Execution instructions of both scripts are similar
+
+Example - 
+
+./proxy -l 9133 -h 127.0.0.1 -p 9132 -x 192.168.122.45 -d 9131 -m 127.0.0.1  -a
+
+-l = local port
+-h = local host
+-p = production port
+-x = production host
+-d = duplicate port
+-m = duplicate host
+-a = asynchronous
+-s = synchronous
+-b <2048> = buffer size
 
 Cloning Scripts
 -----------------
 
 vzclone_vz48 is the latest cloning script available.
+Try vzclone -h for instructions to clone
 
-*** Current setup scripts and README is simply directions for executions. The system setup required by itself is quite complicated. Please submit an issue or contact nipun@cs.columbia.edu for further queries ***
+Instructions for Execution
+-------
+
+Please ensure that the duplicator is running before the vzclone is executed. 
+Cloning will generate an active running clone with minimal disruption to the production container.
+The debug container can then be instrumented by any instrumentation tool of your choice.
+
+Contact us
+-----------------
+
+We have verified that Parikshan runs on a variety of systems. 
+The README provides instructions for the system setup. 
+Please submit an issue or contact nipun@cs.columbia.edu for further queries.
+
+License
+-----------
+This software is released under the MIT license.
+
+Copyright (c) 2013, by The Trustees of Columbia University in the City of New York.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
