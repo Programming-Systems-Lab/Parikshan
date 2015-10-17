@@ -8,7 +8,7 @@ Decription
 This is a description of our early prototype of Parikshan a live debugging framework. 
 The following README shows how-to instructions for setup and network proxy/forwarding directions.
 
-1. Instructions for setting up the container
+1. Instructions for setting up the container target
 ---------------
 
 Install OpenVZ via the following script: https://github.com/nipunarora/sandbox-testing/blob/master/openvz-boot.sh
@@ -83,6 +83,7 @@ Starting a ploop container
 
 
 Network Card Management in KVM
+----------------
 
  The assignment of network cards to interfaces is done in /etc/udev/rules.d/70-persistent-net.rules you need to flush the lines, if you add a new NIC
 
@@ -124,11 +125,14 @@ Example -
 -s = synchronous
 -b <2048> = buffer size
 ```
-Cloning Scripts
+
+Live Cloning Scripts
 -----------------
 
 vzclone_vz48 is the latest cloning script available.
 Try vzclone -h for instructions to clone
+
+./vzclone_vz48 --live --online <destination host ip> <container ID>
 
 Instructions for Execution
 -------
@@ -136,6 +140,22 @@ Instructions for Execution
 Please ensure that the duplicator is running before the vzclone is executed. 
 Cloning will generate an active running clone with minimal disruption to the production container.
 The debug container can then be instrumented by any instrumentation tool of your choice.
+
+Step 1.
+
+Launch a container with the target production application
+
+Step 2.
+
+Start a proxyClone
+
+Step 3.
+
+Clone the container using the live cloning script above
+
+Step 4.
+
+Debug debug container as required
 
 Contact us
 -----------------
