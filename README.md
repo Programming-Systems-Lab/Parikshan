@@ -1,4 +1,5 @@
-==================
+
+=================
 PARIKSHAN - LIVE DEBUGGING
 =================
 
@@ -160,15 +161,13 @@ Debug debug container as required
 Contact us
 -----------------
 
-We have verified that Parikshan runs on a variety of systems. 
-The README provides instructions for the system setup. 
-Please submit an issue or contact nipun@cs.columbia.edu for further queries.
+This software is not maintained. 
 
 License
 -----------
 This software is released under the MIT license.
 
-Copyright (c) 2013-2019, by The Trustees of Columbia University in the City of New York.
+Copyright (c) 2013-2021, by The Trustees of Columbia University in the City of New York.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
