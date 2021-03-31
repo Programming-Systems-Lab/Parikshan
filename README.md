@@ -1,7 +1,8 @@
 
-=================
+
 PARIKSHAN - LIVE DEBUGGING
-=================
+
+Nipun Arora, Jonathan Bell, Franjo Ivančić, Gail Kaiser and Baishakhi Ray. Replay without Recording of Production Bugs for Service Oriented Applications. 33rd ACM/IEEE International Conference on Automated Software Engineering (ASE), Montpellier, France, September 2018, pp. 452-463.  http://doi.acm.org/10.1145/3238147.3238186.
 
 Decription
 --------
